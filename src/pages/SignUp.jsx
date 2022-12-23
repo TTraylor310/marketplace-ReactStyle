@@ -1,9 +1,16 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from 'firebase/auth'
+import { setDoc, doc, serverTimestamp } from 'firebase/firestore'
+import { db } from '../firebase.config'
 import { ReactComponent as ArrowRightIcon } from '../assets/svg/keyboardArrowRightIcon.svg'
 import visibilityIcon from '../assets/svg/visibilityIcon.svg'
 
-const SignUp = () => {
+function SignUp() {
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -17,8 +24,41 @@ const SignUp = () => {
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     }))
+  }
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    console.log('check1')
+    try {
+      const auth = getAuth()
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
+      
+      const user = userCredential.user
+
+      // updateProfile(auth.currentUser, {
+      //   displayName: name,
+      // })
+
+      const formDataCopy = {...formData}
+      delete formDataCopy.password
+      formDataCopy.timestamp = serverTimestamp()
+
+      await setDoc(doc(db, 'users', user.uid), formDataCopy)
+
+      console.log('check here', auth.currentUser)
+      console.log('MAKE SOMETHING TO CHECK. SERVER NOT CREATING USERS IN TABLE. IS A PERMISSIONS PROBLEM?')
+
+      // navigate('/')
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -27,8 +67,7 @@ const SignUp = () => {
         <header>
           <p className='pageHeader'>Welcome Back!</p>
         </header>
-        <main>
-          <form>
+          <form onSubmit={onSubmit}>
             <input
               type='text'
               className='nameInput'
@@ -64,11 +103,9 @@ const SignUp = () => {
             <Link to='/forgot-password' className='forgotPasswordLink'>
               Forgot Password
             </Link>
-            <div className="signUpBar">
-              <p className="signUpText">
-                Sign Up
-              </p>
-              <button className="signUpButton">
+            <div className='signUpBar'>
+              <p className='signUpText'>Sign Up</p>
+              <button className='signUpButton'>
                 <ArrowRightIcon fill='#ffffff' width='34px' height='34px' />
               </button>
             </div>
@@ -77,7 +114,6 @@ const SignUp = () => {
           <Link to='/sign-in' className='registerLink'>
             Sign In Instead
           </Link>
-        </main>
       </div>
     </>
   )

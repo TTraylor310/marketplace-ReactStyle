@@ -4,12 +4,11 @@ import { ReactComponent as ExplorerIcon } from '../assets/svg/exploreIcon.svg'
 import { ReactComponent as PersonOutlineIcon } from '../assets/svg/personOutlineIcon.svg'
 
 const Navbar = () => {
-
   const navigate = useNavigate()
   const location = useLocation()
 
   const pathMatchRoute = (route) => {
-    if(route == location.pathname) {
+    if (route == location.pathname) {
       return true
     }
   }
@@ -18,17 +17,53 @@ const Navbar = () => {
     <footer className='navbar'>
       <nav className='navbarNav'>
         <ul className='navbarListItems'>
-          <li className='navbarListItem' onClick={() => navigate('/')} >
-            <ExplorerIcon fill={pathMatchRoute('/') ? '#2c2c2c' : '#8f8f8f'} width='36px' height='36px' />
-            <p className={pathMatchRoute('/') ? 'navbarListItemNameActive' : 'navbarListName'}>Explore</p>
+          <li className='navbarListItem' onClick={() => navigate('/')}>
+            <ExplorerIcon
+              fill={pathMatchRoute('/') ? '#2c2c2c' : '#8f8f8f'}
+              width='36px'
+              height='36px'
+            />
+            <p
+              className={
+                pathMatchRoute('/')
+                  ? 'navbarListItemNameActive'
+                  : 'navbarListName'
+              }
+            >
+              Explore
+            </p>
           </li>
-          <li className='navbarListItem' onClick={() => navigate('/offers')} >
-            <OfferIcon fill={pathMatchRoute('/offers') ? '#2c2c2c' : '#8f8f8f'} width='36px' height='36px' />
-            <p className={pathMatchRoute('/offers') ? 'navbarListItemNameActive' : 'navbarListName'}>Offer</p>
+          <li className='navbarListItem' onClick={() => navigate('/offers')}>
+            <OfferIcon
+              fill={pathMatchRoute('/offers') ? '#2c2c2c' : '#8f8f8f'}
+              width='36px'
+              height='36px'
+            />
+            <p
+              className={
+                pathMatchRoute('/offers')
+                  ? 'navbarListItemNameActive'
+                  : 'navbarListName'
+              }
+            >
+              Offer
+            </p>
           </li>
-          <li className='navbarListItem' onClick={() => navigate('/profile')} >
-            <PersonOutlineIcon fill={pathMatchRoute('/profile') ? '#2c2c2c' : '#8f8f8f'} width='36px' height='36px' />
-            <p className={pathMatchRoute('/profile') ? 'navbarListItemNameActive' : 'navbarListName'}>Profile</p>
+          <li className='navbarListItem' onClick={() => navigate('/profile')}>
+            <PersonOutlineIcon
+              fill={pathMatchRoute('/profile') ? '#2c2c2c' : '#8f8f8f'}
+              width='36px'
+              height='36px'
+            />
+            <p
+              className={
+                pathMatchRoute('/profile')
+                  ? 'navbarListItemNameActive'
+                  : 'navbarListName'
+              }
+            >
+              Profile
+            </p>
           </li>
         </ul>
       </nav>
